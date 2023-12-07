@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/medicos")
 public class MedicoController {
@@ -53,10 +55,11 @@ public class MedicoController {
         return new DadosDetalhados(medico);
     }
 
-    @GetMapping("/{especialidade}")
-    public Page<DadosDetalhados> listaPorEspecialidade(@PathVariable Especialidade especialidade){
-        Medico medico = repository.findAllByEspecialidade(especialidade);
-        return (Page<DadosDetalhados>) ResponseEntity.ok();
-    }
 
+
+    @GetMapping("/por-especialidade/{especialidade}")
+    public ResponseEntity<List<Medico>> listarPorEspecialidade(@PathVariable Especialidade especialidade) {
+        List<Medico> medicos = repository.findAllByEspecialidade(especialidade);
+        return ResponseEntity.ok(medicos);
+    }
 }
